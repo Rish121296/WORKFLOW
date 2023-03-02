@@ -10,7 +10,6 @@ jobs:
   build-java:
 
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'schedule' || (contains(['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], formatTime(${{ github.event.scheduled_at }}, '%a')) && !between(formatTime(${{ github.event.scheduled_at }}, '%H%M'), '2200', '2330')) || (contains(['Sat', 'Sun'], formatTime(${{ github.event.scheduled_at }}, '%a')) && !between(formatTime(${{ github.event.scheduled_at }}, '%H%M'), '2100', '2330')) }}
     steps:
     - uses: actions/checkout@v2
 
