@@ -33,3 +33,18 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
          
+  block_schedule:
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch'
+
+    steps:
+      - name: Block workflow from running during certain times
+        run: |
+          current_hour=$(date +'%H')
+          current_day=$(date +'%u')
+
+          if (( current_day < 6 && current_hour >= 22 )) || (( current_day >= 6 && current_hour >= 21 )); then
+            echo "::error::Workflow is blocked from running at this time"
+            exit 1
+          
+          
